@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 void main() {
@@ -24,7 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = PageController(viewportFraction: 0.8, keepPage: true);
+  final controller =
+      PreloadPageController(viewportFraction: 0.8, keepPage: true);
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +55,11 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 16),
               SizedBox(
                 height: 240,
-                child: PageView.builder(
+                child: PreloadPageView.builder(
                   controller: controller,
-                  // itemCount: pages.length,
+                  itemCount: pages.length,
                   itemBuilder: (_, index) {
-                    return pages[index % pages.length];
+                    return pages[index];
                   },
                 ),
               ),
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.black54),
                 ),
               ),
-              SmoothPageIndicator(
+              SmoothPreloadPageIndicator(
                 controller: controller,
                 count: pages.length,
                 effect: WormEffect(
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                child: SmoothPageIndicator(
+                child: SmoothPreloadPageIndicator(
                   controller: controller,
                   count: pages.length,
                   effect: JumpingDotEffect(
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                child: SmoothPageIndicator(
+                child: SmoothPreloadPageIndicator(
                   controller: controller,
                   count: pages.length,
                   effect: SwapEffect(
@@ -123,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.black54),
                 ),
               ),
-              SmoothPageIndicator(
+              SmoothPreloadPageIndicator(
                   controller: controller,
                   count: pages.length,
                   effect: ScrollingDotsEffect(
@@ -144,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 // color: Colors.red.withOpacity(.4),
-                child: SmoothPageIndicator(
+                child: SmoothPreloadPageIndicator(
                   controller: controller,
                   count: pages.length,
                   effect: CustomizableEffect(

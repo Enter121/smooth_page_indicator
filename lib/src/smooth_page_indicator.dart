@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
 import 'effects/indicator_effect.dart';
 import 'effects/worm_effect.dart';
@@ -132,6 +132,61 @@ class SmoothIndicator extends StatelessWidget {
       if (index != -1 && index != offset.toInt()) {
         onDotClicked?.call(index);
       }
+    }
+  }
+}
+
+class SmoothPreloadPageIndicator extends AnimatedWidget {
+  // Page view controller
+  final PreloadPageController controller;
+
+  /// Holds effect configuration to be used in the [BasicIndicatorPainter]
+  final IndicatorEffect effect;
+
+  /// layout direction vertical || horizontal
+  ///
+  /// This will only rotate the canvas in which the dots
+  /// are drawn,
+  /// It will not affect [effect.dotWidth] and [effect.dotHeight]
+  final Axis axisDirection;
+
+  /// The number of pages
+  final int count;
+
+  /// If [textDirection] is [TextDirection.rtl], page direction will be flipped
+  final TextDirection? textDirection;
+
+  /// on dot clicked callback
+  final OnDotClicked? onDotClicked;
+
+  SmoothPreloadPageIndicator({
+    Key? key,
+    required this.controller,
+    required this.count,
+    this.axisDirection = Axis.horizontal,
+    this.textDirection,
+    this.onDotClicked,
+    this.effect = const WormEffect(),
+  }) : super(key: key, listenable: controller);
+
+  @override
+  Widget build(BuildContext context) {
+    return SmoothIndicator(
+      offset: _offset,
+      count: count,
+      effect: effect,
+      textDirection: textDirection,
+      axisDirection: axisDirection,
+      onDotClicked: onDotClicked,
+    );
+  }
+
+  double get _offset {
+    try {
+      var offset = controller.page ?? controller.initialPage.toDouble();
+      return offset % count;
+    } catch (_) {
+      return controller.initialPage.toDouble();
     }
   }
 }
